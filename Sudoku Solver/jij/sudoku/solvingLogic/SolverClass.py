@@ -1,3 +1,18 @@
+import numpy as np
+
+charar = np.zeros(shape=[5, 5],dtype='S9')
+charar.fill("123456789")
+print(charar)
+
+te = str(charar[1][1])
+f,s,t = te.rpartition('2')
+te = f+t
+print(te.startswith())
+charar[1,1]=te
+print('------')
+print(charar)
+
+
 def generateGroupKeysForKey(key):
     grpKeyList = []
     for i in [1,4,7]:
