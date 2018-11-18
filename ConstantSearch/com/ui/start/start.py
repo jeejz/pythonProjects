@@ -20,7 +20,7 @@ def OpenFile():
 
 
 Title = root.title( "File Opener")
-label = ttk.Label(root, text ="I'm BATMAN!!!",foreground="red",font=("Helvetica", 16))
+label = ttk.Label(root,  text ="I'm BATMAN!!!",foreground="red",font=("Helvetica", 16))
 label.pack()
 
 #Menu Bar

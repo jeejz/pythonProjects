@@ -24,9 +24,13 @@ class SudokuRefListClass:
                     val = val + ('{0:12s}').format(x)
         return val
 
-
     def remove_invalid_number_from_location(self, num, loc):
         """ To remove a non possible number from the possiblities."""
+        f, s, t = self.allPossList[int(loc)].rpartition(str(num))
+        self.allPossList[int(loc)] = f + t
+
+    def reverse_number_removal_at_location(self, num, loc):
+        """ To add the removed number from the possiblities."""
         f, s, t = self.allPossList[int(loc)].rpartition(str(num))
         self.allPossList[int(loc)] = f + t
 
@@ -48,12 +52,29 @@ class SudokuRefListClass:
     def generate_col_keys_for_key(k):
         return [str(i) + k[0] for i in range(1, 10)]
 
+    def replace_old_value(self,pos, oldval, oldmatrix):
+        pass
+
     def apply_value_at_position(self,v,pos):
         print("Applying - val : {} @ pos : {}".format(v, pos))
         [self.remove_invalid_number_from_location(v, e) for e in SudokuRefListClass.generate_col_keys_for_key(pos)]
         [self.remove_invalid_number_from_location(v, e) for e in SudokuRefListClass.generate_row_keys_for_key(pos)]
         [self.remove_invalid_number_from_location(v, e) for e in SudokuRefListClass.generate_group_keys_for_key(pos)]
         self.allPossList[int(pos)] = ''
+
+    def update_sudoku_with_event_value(self,e,v):
+        for key, value in v.items():
+            if value is None or value is '' :
+                pass
+            else:
+                print("Applying - val : {} @ pos : {}".format(value, key))
+                [self.remove_invalid_number_from_location(value, e) for e in SudokuRefListClass.generate_col_keys_for_key(key)]
+                [self.remove_invalid_number_from_location(value, e) for e in SudokuRefListClass.generate_row_keys_for_key(key)]
+                [self.remove_invalid_number_from_location(value, e) for e in SudokuRefListClass.generate_group_keys_for_key(key)]
+                self.allPossList[int(key)] = ''
+        print(self)
+
+
 
 if __name__ == '__main__':
     s = SudokuRefListClass()
