@@ -29,12 +29,7 @@ class SudokuRefListClass:
         f, s, t = self.allPossList[int(loc)].rpartition(str(num))
         self.allPossList[int(loc)] = f + t
 
-    def reverse_number_removal_at_location(self, num, loc):
-        """ To add the removed number from the possiblities."""
-        f, s, t = self.allPossList[int(loc)].rpartition(str(num))
-        self.allPossList[int(loc)] = f + t
-
-    def generate_group_keys_for_key(k):
+    def generate_group_keys_for_key(self, k):
         group_keys = []
         for i in [1, 4, 7]:
             if i <= int(k[0]) < i + 3:
@@ -46,35 +41,31 @@ class SudokuRefListClass:
                 group_keys.append(str(k) + str(l))
         return group_keys
 
-    def generate_row_keys_for_key(k):
+    def generate_row_keys_for_key(self, k):
         return [k[0] + str(i) for i in range(1, 10)]
 
-    def generate_col_keys_for_key(k):
-        return [str(i) + k[0] for i in range(1, 10)]
+    def generate_col_keys_for_key(self, k):
+        return [str(i) + k[1] for i in range(1, 10)]
 
-    def replace_old_value(self,pos, oldval, oldmatrix):
-        pass
+    def generate_positional_search_keys_list(self,pos):
+        all_keys = []
+        all_keys.extend(self.generate_col_keys_for_key(pos))
+        all_keys.extend(self.generate_row_keys_for_key(pos))
+        all_keys.extend(self.generate_group_keys_for_key(pos))
+        return all_keys
 
-    def apply_value_at_position(self,v,pos):
-        print("Applying - val : {} @ pos : {}".format(v, pos))
-        [self.remove_invalid_number_from_location(v, e) for e in SudokuRefListClass.generate_col_keys_for_key(pos)]
-        [self.remove_invalid_number_from_location(v, e) for e in SudokuRefListClass.generate_row_keys_for_key(pos)]
-        [self.remove_invalid_number_from_location(v, e) for e in SudokuRefListClass.generate_group_keys_for_key(pos)]
-        self.allPossList[int(pos)] = ''
+    def apply_value_at_position(self,pos,val):
+        [self.remove_invalid_number_from_location(val, e) for e in self.generate_positional_search_keys_list(pos)]
+        print(self)
 
     def update_sudoku_with_event_value(self,e,v):
         for key, value in v.items():
             if value is None or value is '' :
                 pass
             else:
-                print("Applying - val : {} @ pos : {}".format(value, key))
-                [self.remove_invalid_number_from_location(value, e) for e in SudokuRefListClass.generate_col_keys_for_key(key)]
-                [self.remove_invalid_number_from_location(value, e) for e in SudokuRefListClass.generate_row_keys_for_key(key)]
-                [self.remove_invalid_number_from_location(value, e) for e in SudokuRefListClass.generate_group_keys_for_key(key)]
+                [self.remove_invalid_number_from_location(value, e) for e in self.generate_positional_search_keys_list(key)]
                 self.allPossList[int(key)] = ''
         print(self)
-
-
 
 if __name__ == '__main__':
     s = SudokuRefListClass()
